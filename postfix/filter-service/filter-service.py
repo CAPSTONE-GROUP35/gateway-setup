@@ -43,6 +43,7 @@ domainRegex = r'@(.*)'
 if re.findall(domainRegex, emailFromAddress)[0] == "internal.test":
     # Outbound emails logic
     # Keyword list scanning for outgoing emails
+    logMessage = "The outgoing email did not contain any sensitive content."
     protectedKeywordList = ["secret", "confidential", "private"]
     for keyword in protectedKeywordList:
         if re.search(keyword, emailBody, re.IGNORECASE):
