@@ -105,13 +105,14 @@ else:
     # Create Email Object
     emailRecord = Email(emailId, emailToAddress, emailFromAddress, emailSubject, emailBody, emailStr)
 
-    # Get current email records and add Email record to list
-    emailList = []
-    emailList = utilities.readFromBinaryFileToEmailList('../../webapp/data/emails.bin', emailList)
+    # Get current email records
+    emailList = utilities.readFromBinaryFileToEmailList('../../webapp/data/emails.bin')
+
+    # Append Email record to the list
     emailList.append(emailRecord)
 
     # Write the updated Email List to bin file
-    utilities.writeToBinaryFileFromEmailList('../../webapp/data/emails.bin')
+    utilities.writeToBinaryFileFromEmailList('../../webapp/data/emails.bin', emailList)
     #################################### Create email record   ########################################
 
     # TODO: Add To, From and subject from Email variable
