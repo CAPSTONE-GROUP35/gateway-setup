@@ -77,7 +77,7 @@ $(document).ready(function() {
           { data: "Action",
           render: function (data, type, row) { //Checks what value is in Action and Assigns colour
             var color = 'black';
-            if (data === 'Allowed') {
+            if (data.toLowerCase() === 'allowed') {
               color = '#62F5BC';
             }
             else if (data != 'a')
