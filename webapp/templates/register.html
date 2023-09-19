@@ -17,6 +17,11 @@
                 <img src="..\static\img\logo.png" alt="Logo" class="logo">
             </div>
             <h2>Register for Admin Dashboard</h2>
+            {% for msg in get_flashed_messages() %}
+            <div class="alert alert-danger" role="alert">
+                {{ msg }}. Please go to <a href="{{url_for('login')}}">login page</a>
+            </div>
+            {% endfor %}
             <form method="POST" action="/register">
                 <div class="field">
                     <div class="control">

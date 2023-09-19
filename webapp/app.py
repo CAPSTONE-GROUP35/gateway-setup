@@ -22,7 +22,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
-# Get Check if a user exists in the database
+# Check if a user exists in the database
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -75,10 +75,11 @@ def register_post():
     user = User.query.filter_by(username=username).first() # if this returns a user, then the email already exists in database
 
     if user: # if a user is found, we want to redirect back to signup page so user can try again
-        return redirect(url_for('login'))
+        flash('User account already exists')
+        return redirect(url_for('register'))
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-    newUser = User(username=username, password=generate_password_hash(password, method='sha256'))
+    newUser = User(username=username, password=generate_password_hash(password, method='scrypt'))
 
     # add the new user to the database
     db.session.add(newUser)

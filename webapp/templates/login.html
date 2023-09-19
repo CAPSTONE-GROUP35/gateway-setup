@@ -17,6 +17,11 @@
                 <img src="..\static\img\logo.png" alt="Logo" class="logo">
             </div>
             <h2>Login to Admin Dashboard</h2>
+            {% for msg in get_flashed_messages() %}
+            <div class="alert alert-danger" role="alert">
+                {{ msg }}
+            </div>
+            {% endfor %}
             <form method="POST" action="">
                 <div class="field">
                     <div class="control">
