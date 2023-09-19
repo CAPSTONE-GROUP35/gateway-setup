@@ -10,26 +10,30 @@ from email import policy
 from email.parser import Parser
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# Create datbase object, flask app, database path and secret key
 db = SQLAlchemy()
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 
-
+# Create login manager object for managing authentication for current user
 login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
+# Get Check if a user exists in the database
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# User login class
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
 
+# Create database tables for User login
 with app.app_context():
     db.init_app(app)
     db.create_all()
