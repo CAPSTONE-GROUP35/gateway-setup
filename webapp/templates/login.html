@@ -17,30 +17,26 @@
                 <img src="..\static\img\logo.png" alt="Logo" class="logo">
             </div>
             <h2>Login to Admin Dashboard</h2>
-            <form id="login-form">
-                <div class="form-field">
-                    <label for="username">Username</label>
-                    <input type="text" class="login-input" id="username-field" name="username" placeholder="Username" required >
-                </div>
-                <div class="form-field">
-                    <label for="password">Password</label>
-                    <input type="password" class="login-input" id="password-field" name="password" placeholder="Password"  required>
-                </div>
-                <div class="form-field remember-recovery">
-                    <div class="remember-me">
-                        <input type="checkbox" id="remember" name="remember">
-                        <label for="remember">Remember me</label>
-                    </div>
-                    <div class="password-recovery">
-                        <!--TO DO-->
-                        <a href="forgot_password.html">Forgot your password?</a>
+            <form method="POST" action="">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="input" name="username" placeholder="Your Username" autofocus="">
                     </div>
                 </div>
-                <button type="submit" class="login-button" value="Login" id="login-form-submit">Login</button>
+    
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="password" name="password" placeholder="Your Password">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="checkbox">
+                        <input type="checkbox" name="remember">
+                        Remember me
+                    </label>
+                </div>
+                <button class="btn btn-primary">Login</button>
             </form>
-            <script src="{{ url_for('static', filename='script/login.js')}}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-
             <div class="social-buttons">
                 <!-- TO DO : Social media login buttons -->
             </div>
@@ -48,7 +44,7 @@
                 <p>&copy; 2023 Bad Security Inc. All rights reserved.</p>
                 <p>
                     <!--TO DO-->
-                    <a href="/privacypolicy">Privacy Policy</a>
+                    <a href="privacy_policy.html">Privacy Policy</a>
                 </p>
             </div>
         </div>

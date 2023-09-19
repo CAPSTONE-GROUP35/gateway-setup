@@ -1,4 +1,6 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, redirect, session, request, flash
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 import json
 import os
 import pickle
@@ -6,38 +8,106 @@ import writeEmailObjectsToBinaryFile
 import writeLogObjectsToBinaryFile
 from email import policy
 from email.parser import Parser
-from models.email import Email
-from models.log import Log
+from werkzeug.security import generate_password_hash, check_password_hash
 
+db = SQLAlchemy()
 app = Flask(__name__)
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
+app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 
-@app.route('/')
-def index():
-    # pieChartData = {'Task' : 'Total emails', 'Allowed' : 234, 'Blocked' : 153, 'Quarantine' : 86}
+login_manager = LoginManager()
+login_manager.login_view = 'login'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), nullable=False, unique=True)
+    password = db.Column(db.String(80), nullable=False)
+
+with app.app_context():
+    db.init_app(app)
+    db.create_all()
+
+@app.route('/', methods=['GET'])
+def login():
+    return render_template('login.html')
+
+@app.route('/', methods=['POST'])
+def login_post():
+    # login code goes here
+    username = request.form.get('username')
+    password = request.form.get('password')
+    remember = True if request.form.get('remember') else False
+
+    user = User.query.filter_by(username=username).first()
+
+    # check if the user actually exists
+    # take the user-supplied password, hash it, and compare it to the hashed password in the database
+    #if not user or not check_password_hash(user.password, password):
+    if not user or not check_password_hash(user.password, password):
+        flash('Please check your login details and try again.')
+        return redirect(url_for('login')) # if the user doesn't exist or password is wrong, reload the page
+
+    # if the above check passes, then we know the user has the right credentials
+    login_user(user, remember=remember)
+    return redirect(url_for('dashboard'))
+
+@app.route('/register', methods = ['GET'])
+def register():
+    return render_template('register.html')
+
+@app.route('/register', methods = ['POST'])
+def register_post():
+    # code to validate and add user to database goes here
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    user = User.query.filter_by(username=username).first() # if this returns a user, then the email already exists in database
+
+    if user: # if a user is found, we want to redirect back to signup page so user can try again
+        return redirect(url_for('login'))
+
+    # create a new user with the form data. Hash the password so the plaintext version isn't saved.
+    newUser = User(username=username, password=generate_password_hash(password, method='sha256'))
+
+    # add the new user to the database
+    db.session.add(newUser)
+    db.session.commit()
+    return redirect(url_for('login'))
+
+@app.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+@login_required
+def dashboard():
     pieChartData = writeLogObjectsToBinaryFile.getLogListActionCount(
         'data/logs.bin')
     barChartData = writeLogObjectsToBinaryFile.getLogListTypeCount(
         'data/logs.bin')
-    # barChartData = {'Task' : 'Threats found', 'Virus' : 57, 'Spam' : 56, 'Phishing' : 40}
-    # print(data)
-
-    return render_template('index.html', pieChartData=pieChartData, barChartData=barChartData)
+    return render_template('dashboard.html', pieChartData=pieChartData, barChartData=barChartData)
 
 
-@app.route('/emails')
+@app.route('/emails', methods=['GET'])
+@login_required
 def emails():
     headings = ("ID", "To", "From", "Subject", "Body", "Open")
     emailData = writeEmailObjectsToBinaryFile.readFromBinaryFileToEmailList(
         'data/emails.bin')
-    
-    
-
-
     return render_template('emails.html', emailData=emailData, headings=headings)
 
 
-@app.route('/logs')
+@app.route('/logs', methods=['GET'])
+@login_required
 def logs():
     headings = ("ID", "Date", "Time", "To", "From",
                 "Subject", "Message", "Type", "Action")
@@ -46,15 +116,8 @@ def logs():
     return render_template('logs.html', logData=logData, headings=headings)
 
 
-@app.route('/login')
-def login():
-    return render_template('login.html')
-
-@app.route('/privacypolicy')
-def privacypolicy():
-    return render_template('privacypolicy.html')
-
-@app.route('/displayEmail/<id>')
+@app.route('/displayEmail/<id>', methods=['GET'])
+@login_required
 def displayEmail(id):
     originalEmail = writeEmailObjectsToBinaryFile.getOriginalEmail(
         id, 'data/emails.bin')
@@ -78,6 +141,10 @@ def displayEmail(id):
     # print(emailData)
     return render_template('displayEmail.html', emailData=emailData)
 
+@app.route('/privacypolicy')
+@login_required
+def privacypolicy():
+    return render_template('privacypolicy.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

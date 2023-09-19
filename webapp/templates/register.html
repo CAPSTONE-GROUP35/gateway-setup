@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="..\static\css\style.css">
+    <meta charset="utf-8" />
+    <meta name="description" content="Data Analytics for Bad Security Inc." />
+    <meta name="keywords" content="HTML, Form, tags, css" />
+    <meta name="author" content="Yuvneet"  />
+    <title>Login</title>
+    
+    <!-- TODO : •	Session Timeout
+                •	Language and display options (user choice) -->
+{% endblock %}
+{% block content %}
+    <div id="container">
+        <div id="login-container">
+            <div class="logo-container">
+                <img src="..\static\img\logo.png" alt="Logo" class="logo">
+            </div>
+            <h2>Register for Admin Dashboard</h2>
+            <form method="POST" action="/register">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="input" name="username" placeholder="Your Username" autofocus="">
+                    </div>
+                </div>
+    
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="password" name="password" placeholder="Your Password">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="checkbox">
+                        <input type="checkbox" name="remember">
+                        Remember me
+                    </label>
+                </div>
+                <button class="btn btn-primary">Register</button>
+            </form>
+
+            <div class="social-buttons">
+                <!-- TO DO : Social media login buttons -->
+            </div>
+            <div class="footer">
+                <p>&copy; 2023 Bad Security Inc. All rights reserved.</p>
+                <p>
+                    <!--TO DO-->
+                    <a href="privacy_policy.html">Privacy Policy</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
