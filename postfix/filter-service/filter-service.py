@@ -126,7 +126,6 @@ else:
     emailRecord = Email(emailId, emailToAddress, emailFromAddress, emailSubject, emailBody, emailStr)
 
     # Get current email records and add Email record to list
-    emailList = []
     emailList = utilities.readFromBinaryFileToEmailList('/opt/webapp/data/emails.bin')
     emailList.append(emailRecord)
 
@@ -150,7 +149,6 @@ else:
     logRecord = Log(logId, logDate, logTime, logTo, logFrom, logSubject, logMessage, threatType, emailOutcome)
 
     # Get current log records and add Log record to list
-    logList = []
     logList = utilities.readFromBinaryFileToLogList('/opt/webapp/data/logs.bin')
     logList.append(logRecord)
 
