@@ -54,7 +54,7 @@ if re.findall(domainRegex, emailFromAddress)[0] == "internal.test":
     # Outbound emails logic
     # Keyword list scanning for outgoing emails
     logMessage = "OUTBOUND: No email encryption required. No sensitive words detected."
-    protectedKeywordList = ["secret", "confidential", "private"]
+    protectedKeywordList = ["secret", "confidential", "private", "sensitive", "protected", "classified", "encryption", "encrypt", "decrypt", "personal", "access control", "access levels", "priv", "privilege level", "privilege account", "admin account", "password", "passcode", "passphrase", "internal use only", "internal only", "not for distribution", "not for public", "not public", "not for publication", "not for external", "identity", "PII", "department specific", "do not share", "do not copy", "copying prohibited", "restricted", "restrict access", "permission", "covert", "concealed", "digital certificate", "request for access", "change of privilege", "change access", "change of access", "data breach", "data protection", "data security", "data loss", "group policy", "secure storage", "secure message", "administrative controls", "IP address", "system security", "breach", "information asset", "unauthorized", "untrused", "phone number", "residential address", "street address", "signature", "passport", "mishandling", "misconduct", "bank account", "savings account", "credit card", "code", "token", "identification number", "licence number", "date of birth", "DOB", "mailing address", "vulnerability", "caution", "money", "financial", "finance", "cost", "threat", "attack", "fraud", "anti-virus", "exploit", "ransom", "malware", "virus", "trojan", "worm"]
     for keyword in protectedKeywordList:
         if re.search(keyword, emailBody, re.IGNORECASE):
             logMessage = "OUTBOUND: Encrypting email. Sensitive word '%s' detected." % keyword
@@ -87,7 +87,7 @@ if re.findall(domainRegex, emailFromAddress)[0] == "internal.test":
 
 else:
     # Inbound emails logic
-    keywordBlacklist = ["casino", "lottery", "viagra"]
+    keywordBlacklist = ["casino", "lottery", "viagra", "$$$", "4U", "Accept credit cards", "act now", "don't hesitate", "additional income", "all natural", "apply online", "auto email removal", "avoid bankruptcy", "be amazed", "be your own boss", "big bucks", "billing address", "billion dollars", "brand new pager", "bulk email", "buy direct", "cable converter", "call free", "call now", "calling creditors", "can't live without", "cancel at any time", "any other offer", "cash bonus", "cashcashcash", "check or money", "click below", "click here link", "click to remove", "compare rates", "complete for your business", "all orders", "congratulations", "consolidate debt", "credit card offer", "cure", "dear email", "dear friend", "dear somebody", "dig up dirt", "direct email", "direct marketing", "do it today", "don't delete", "drastically reduced", "earn per week", "easy terms", "eliminate", "bad credit", "expect to earn", "fantastic deal", "fast delivery", "finanical freedom", "find out anything", "for free", "instant access", "just $", "free access", "free consultation", "free hosting", "free installation", "free investment", "free membership", "free money", "free offer", "free preview", "free priority", "free quote", "free trial", "free website", "full refund", "get it now", "get paid", "get started", "gift certificate", "great offer", "guarantee", "have you been turned down", "join millions", "limited time only", "lose weight", "lower interest rates", "lower monthly payment", "lowest price", "luxury car", "meet singles", "MLM", "money back", "money making", "trial offer", "mortgage rates", "new customers only", "new domain extensions", "nigerian", "no age restrictions", "no catch", "no claim", "no cost", "no credit", "no fees", "no gimmick", "no investment", "medical exam", "no purchase", "no selling", "no strings attached", "off shore", "offer expires", "coupon", "extra cash", "once in a lifetime", "100%", "one hundred percent free", "biz", "online pharmacy", "only $", "opt in", "order now", "order status", "orders shipped", "outstanding", "please read", "potential earnings", "profits", "promise you", "pure profit", "real thing", "refinance", "risk free", "safeguard notice", "satisfaction", "save $", "save big money", "save up to", "score with", "see for yourself", "serious cash", "serious only", "shopping spree", "sign up free", "social security", "security number", "special promotion", "on sale", "supplies are limitied", "take action", "best rates", "your money", "isn't junk", "isn't spam", "unlimited", "unsecured", "urgent", "hate spam", "what are you waiting for", "while supplies last", "pay more", "winner", "winning", "you have been selected", "your income", "verification required", "password expiry", "expiration notice", "re:invoice", "missing invoice", "action required", "suspicious activity", "important!", "check out this", "don't miss", "exclusive", "deal ending", "unbelievable", "claim now", "claim your prize", "all-new", "one time only", "hurry up", "now only", "new deals", "on offer", "act fast"]
     emailOutcome = Outcome.ALLOWED.name
     threatType = ThreatType.NO_THREAT.value
     logMessage = "INBOUND: Email allowed. No suspicious words or attachments detected."
@@ -126,7 +126,6 @@ else:
     emailRecord = Email(emailId, emailToAddress, emailFromAddress, emailSubject, emailBody, emailStr)
 
     # Get current email records and add Email record to list
-    emailList = []
     emailList = utilities.readFromBinaryFileToEmailList('/opt/webapp/data/emails.bin')
     emailList.append(emailRecord)
 
@@ -150,7 +149,6 @@ else:
     logRecord = Log(logId, logDate, logTime, logTo, logFrom, logSubject, logMessage, threatType, emailOutcome)
 
     # Get current log records and add Log record to list
-    logList = []
     logList = utilities.readFromBinaryFileToLogList('/opt/webapp/data/logs.bin')
     logList.append(logRecord)
 

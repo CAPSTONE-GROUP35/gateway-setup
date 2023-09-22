@@ -65,17 +65,20 @@ postmap /etc/postfix/relay-recipient-maps &&
 postfix reload &&
 
 # Start opendkim
-service opendkim start
+service opendkim start &&
 
 # Copy webapp to opt directory
-cp -r ./webapp /opt
+cp -r ./webapp /opt &&
 
 # Set ownership to write to binary files
-chown -R user /opt/webapp/data/
+chown -R user /opt/webapp/data/ &&
+
+# Install flask packages
+pip install flask_sqlalchemy flask_login &&
 
 # Enable and start clamav daemon
-systemctl enable clamav-daemon
-systemctl start clamav-daemon
+systemctl enable clamav-daemon &&
+systemctl start clamav-daemon &&
 
 # Reboot
 for i in {10..1}
