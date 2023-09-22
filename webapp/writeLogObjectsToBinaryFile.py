@@ -102,7 +102,7 @@ def getLogListActionCount(filePath):
     if (logList != []):
         # Count records stored in bin file
         for log in logList:
-            if (log.action == "Allowed"):
+            if (log.action.lower() == "allowed"):
                 # Append to allowed list
                 actionList["Allowed"] += 1
             else:
@@ -115,24 +115,21 @@ def getLogListActionCount(filePath):
 
 def getLogListTypeCount(filePath):
     logList = readFromBinaryFileToLogList(filePath)
-    typeList = {"Task": "Threats found", "Safe": 0,
-                "Virus": 0, "Spam": 0, "Phishing": 0}
+    typeList = {"Task": "Threats found", "No threat": 0,
+                "Virus or malware": 0, "Spam or phishing": 0}
 
     if (logList != []):
         # Count records stored in bin file
         for log in logList:
-            if (log.type.lower() == "safe"):
+            if (log.type.lower() == "no_threat"):
                 # Append to safe list
-                typeList["Safe"] += 1
-            elif (log.type.lower() == "virus"):
-                # Append to virus list
-                typeList["Virus"] += 1
-            elif (log.type.lower() == "spam"):
-                # Append to spam list
-                typeList["Spam"] += 1
-            elif (log.type.lower() == "phishing"):
-                # Append to phishing list
-                typeList["Phishing"] += 1
+                typeList["No threat"] += 1
+            elif (log.type.lower() == "virus_malware"):
+                # Append to virus/malware list
+                typeList["Virus or malware"] += 1
+            elif (log.type.lower() == "spam_phishing"):
+                # Append to spam/phishing list
+                typeList["Spam or phishing"] += 1
 
     # print(typeList)
     return typeList
