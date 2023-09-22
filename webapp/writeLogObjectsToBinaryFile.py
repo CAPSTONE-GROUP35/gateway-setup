@@ -16,23 +16,21 @@ def displayAllLogRecords(filePath):
 
 
 def writeToBinaryFileFromLogList(writeBinFilePath, writeLogList):
-    # Check if writeLogList contains records
-    if (writeLogList != []):
-        if (os.path.exists(writeBinFilePath)):
-            # Write list to existing bin file
-            with open(writeBinFilePath, "wb") as f:
-                pickle.dump(writeLogList, f)
-        else:
-            newDirectory = os.path.dirname(writeBinFilePath)
-            doesDirectoryExist = os.path.exists(newDirectory)
-            if not doesDirectoryExist:
-                print("Directory does NOT exist")
-                os.makedirs(newDirectory)
-                print("Directory has been created")
+    if (os.path.exists(writeBinFilePath)):
+        # Write list to existing bin file
+        with open(writeBinFilePath, "wb") as f:
+            pickle.dump(writeLogList, f)
+    else:
+        newDirectory = os.path.dirname(writeBinFilePath)
+        doesDirectoryExist = os.path.exists(newDirectory)
+        if not doesDirectoryExist:
+            print("Directory does NOT exist")
+            os.makedirs(newDirectory)
+            print("Directory has been created")
 
-            # Write list to new bin file
-            with open(writeBinFilePath, "wb") as f:
-                pickle.dump(writeLogList, f)
+        # Write list to new bin file
+        with open(writeBinFilePath, "wb") as f:
+            pickle.dump(writeLogList, f)
 
 
 def readFromBinaryFileToLogList(readBinFilePath):
@@ -139,5 +137,7 @@ def getLogListTypeCount(filePath):
     # print(typeList)
     return typeList
 
-# readFromBinaryFileToLogList('data/logs.bin')
-# displayAllLogRecords('/data/logs.bin')
+
+def clearLogList(filePath):
+    logList = []
+    writeToBinaryFileFromLogList(filePath, logList)
