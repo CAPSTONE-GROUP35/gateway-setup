@@ -38,9 +38,9 @@ emailObj = email.message_from_string(emailStr, policy=email.policy.default)
 
 # Get 'from' address
 fromDetails = emailObj['From']
-emailFromregex = r'<([^>]+)>'
+emailFromregex = r'([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)'
 match = re.search(emailFromregex, fromDetails)
-emailFromAddress = match.group(1)
+emailFromAddress = match.group()
 
 # Get other elements
 emailToAddress = emailObj['To']
