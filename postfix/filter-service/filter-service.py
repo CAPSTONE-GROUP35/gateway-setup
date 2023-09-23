@@ -56,7 +56,7 @@ if re.findall(domainRegex, emailFromAddress)[0] == "internal.test":
     logMessage = "OUTBOUND: No email encryption required. No sensitive words detected."
     protectedKeywordList = ["secret", "confidential", "private", "sensitive", "protected", "classified", "encryption", "encrypt", "decrypt", "personal", "access control", "access levels", "priv", "privilege level", "privilege account", "admin account", "password", "passcode", "passphrase", "internal use only", "internal only", "not for distribution", "not for public", "not public", "not for publication", "not for external", "identity", "PII", "department specific", "do not share", "do not copy", "copying prohibited", "restricted", "restrict access", "permission", "covert", "concealed", "digital certificate", "request for access", "change of privilege", "change access", "change of access", "data breach", "data protection", "data security", "data loss", "group policy", "secure storage", "secure message", "administrative controls", "IP address", "system security", "breach", "information asset", "unauthorized", "untrused", "phone number", "residential address", "street address", "signature", "passport", "mishandling", "misconduct", "bank account", "savings account", "credit card", "code", "token", "identification number", "licence number", "date of birth", "DOB", "mailing address", "vulnerability", "caution", "money", "financial", "finance", "cost", "threat", "attack", "fraud", "anti-virus", "exploit", "ransom", "malware", "virus", "trojan", "worm"]
     for keyword in protectedKeywordList:
-        if re.search(keyword, emailBody, re.IGNORECASE):
+        if keyword in emailBody.lower() or keyword in emailSubject.lower():
             logMessage = "OUTBOUND: Encrypting email. Sensitive word '%s' detected." % keyword
             
             # Give the email a new body, overwriting the old one
@@ -94,7 +94,7 @@ else:
 
     # Keyword scanning
     for keyword in keywordBlacklist:
-        if re.search(keyword, emailStr, re.IGNORECASE):
+        if keyword in emailBody.lower() or keyword in emailSubject.lower():
             emailOutcome = Outcome.DENIED.name
             exitCode = Outcome.DENIED.value
             threatType = ThreatType.SPAM_PHISHING.value
