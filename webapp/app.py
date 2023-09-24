@@ -174,7 +174,6 @@ def displayEmail(id):
 
 
 @app.route('/privacypolicy')
-@login_required
 def privacypolicy():
     return render_template('privacypolicy.html')
 

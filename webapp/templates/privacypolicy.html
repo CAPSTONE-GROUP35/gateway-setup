@@ -64,7 +64,12 @@
         This Privacy Policy is a placeholder and will be updated with more detailed information before the official launch of our Email Security Admin Page. Thank you for your understanding and trust in our commitment to safeguarding your privacy.
     </p>
     <p>
-        <a href="/login" class="close-button2">Close</a>
+        {% if current_user.is_authenticated %}
+        <a href="/dashboard" class="close-button2">Close</a>
+        {% else %}
+        <a href="/" class="close-button2">Close</a>
+        {% endif %}
+        
     </p>
 </div>
 
