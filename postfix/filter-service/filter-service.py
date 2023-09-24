@@ -103,6 +103,9 @@ if re.findall(domainRegex, emailFromAddress)[0] == "internal.test":
             logMessage = "OUTBOUND: Encrypting email. "
             + "Sensitive word '%s' detected." % keyword
 
+        if keyword in emailBody.lower() or keyword in emailSubject.lower():
+            logMessage = "OUTBOUND: Encrypting email. Sensitive word '%s' detected." % keyword
+            
             # Give the email a new body, overwriting the old one
             newBody = "Encrypted message attached"
             emailObj.set_content(newBody)
@@ -214,7 +217,7 @@ else:
 
     # Keyword scanning
     for keyword in keywordBlacklist:
-        if re.search(keyword, emailStr, re.IGNORECASE):
+        if keyword in emailBody.lower() or keyword in emailSubject.lower():
             emailOutcome = Outcome.DENIED.name
             exitCode = Outcome.DENIED.value
             threatType = ThreatType.SPAM_PHISHING.value
