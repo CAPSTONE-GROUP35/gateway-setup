@@ -58,7 +58,7 @@ if re.findall(domainRegex, emailFromAddress)[0] == "internal.test":
     # Outbound emails logic
     # Keyword list scanning for outgoing emails
     logMessage = ("OUTBOUND: No email encryption required."
-                  "No sensitive words detected.")
+                  " No sensitive words detected.")
     protectedKeywordList = ["secret", "confidential", "private",
                             "sensitive", "protected", "classified",
                             "encryption", "encrypt", "decrypt",
