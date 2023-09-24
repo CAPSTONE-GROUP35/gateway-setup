@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user
 from flask_login import LoginManager, login_required
 from flask_login import logout_user, current_user
+from datetime import timedelta
 import json
 import os
 import pickle
@@ -104,6 +105,7 @@ def register_post():
     # add the new user to the database
     db.session.add(newUser)
     db.session.commit()
+
     return redirect(url_for('login'))
 
 
@@ -117,6 +119,9 @@ def logout():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
+    # Set the session parameter and timeout
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=15)
     pieChartData = writeLogObjectsToBinaryFile.getLogListActionCount(
         'data/logs.bin')
     barChartData = writeLogObjectsToBinaryFile.getLogListTypeCount(
@@ -129,6 +134,9 @@ def dashboard():
 @app.route('/emails', methods=['GET'])
 @login_required
 def emails():
+    # Set the session parameter and timeout
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=15)
     headings = ("ID", "To", "From", "Subject", "Body", "Open")
     emailData = writeEmailObjectsToBinaryFile.readFromBinaryFileToEmailList(
         'data/emails.bin')
@@ -140,6 +148,9 @@ def emails():
 @app.route('/logs', methods=['GET'])
 @login_required
 def logs():
+    # Set the session parameter and timeout
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=15)
     headings = ("ID", "Date", "Time", "To", "From",
                 "Subject", "Message", "Type", "Action")
     logData = writeLogObjectsToBinaryFile.readFromBinaryFileToLogList(
@@ -150,6 +161,9 @@ def logs():
 @app.route('/displayEmail/<id>', methods=['GET'])
 @login_required
 def displayEmail(id):
+    # Set the session parameter and timeout
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=15)
     originalEmail = writeEmailObjectsToBinaryFile.getOriginalEmail(
         id, 'data/emails.bin')
 
