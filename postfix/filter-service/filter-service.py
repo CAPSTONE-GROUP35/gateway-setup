@@ -104,8 +104,9 @@ if re.findall(domainRegex, emailFromAddress)[0] == "internal.test":
             + "Sensitive word '%s' detected." % keyword
 
         if keyword in emailBody.lower() or keyword in emailSubject.lower():
-            logMessage = "OUTBOUND: Encrypting email. Sensitive word '%s' detected." % keyword
-            
+            logMessage = "OUTBOUND: Encrypting email."
+            + " Sensitive word '%s' detected." % keyword
+
             # Give the email a new body, overwriting the old one
             newBody = "Encrypted message attached"
             emailObj.set_content(newBody)
