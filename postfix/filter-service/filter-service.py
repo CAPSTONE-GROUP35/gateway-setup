@@ -24,11 +24,9 @@ from email import policy
 randomChars = ''.join(random.choices(
     string.ascii_uppercase + string.digits, k=32))
 
-
 class Outcome(Enum):
     ALLOWED = 0
     DENIED = 1
-
 
 class ThreatType(Enum):
     SPAM_PHISHING = "spam_phishing"
