@@ -73,7 +73,23 @@ $(document).ready(function() {
           { data: "from" },
           { data: "subject" },
           { data: "message" },
-          { data: "type" },
+          { data: "type",
+            render: function(data) {              //Clean up Type 
+              switch (data.toLowerCase()) {
+                case 'no_threat':
+                  return 'No Threat';
+                break;
+                case 'spam_phishing':
+                  return 'Spam/Phishing';
+                break;
+                case 'virus_malware':
+                  return 'Virus/Malware';
+                break;
+                default:
+                  return data; 
+              }
+            }
+          },
           { data: "Action",
           render: function (data, type, row) { //Checks what value is in Action and Assigns colour
             var color = 'black';
