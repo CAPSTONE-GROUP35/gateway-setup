@@ -96,9 +96,6 @@ def addLogRecord(filePath):
         # Write new log records to bin file
         writeToBinaryFileFromLogList(filePath, logList)
 
-# readFromBinaryFileToLogList('../../webapp/data/logs.bin')
-# displayAllLogRecords('../../webapp/data/logs.bin')
-
 
 def displayAllEmailRecords(filePath):
     emailList = readFromBinaryFileToEmailList(filePath)
@@ -193,6 +190,3 @@ def addEmailRecord(filePath):
 
         # Write new email records to bin file
         writeToBinaryFileFromEmailList(filePath, emailList)
-
-# readFromBinaryFileToEmailList('../../webapp/data/emails.bin')
-# displayAllEmailRecords('../../webapp/data/emails.bin')
