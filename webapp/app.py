@@ -17,8 +17,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy()
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'
-+ os.path.join(basedir, 'database.db')
+uri = 'sqlite:///' + os.path.join(basedir, 'database.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 # Create login manager object for managing authentication for current user
