@@ -105,8 +105,8 @@ if re.findall(domainRegex, emailFromAddress)[0] == "internal.test":
             newBody = "Encrypted message attached"
             emailObj.set_content(newBody)
 
-           # Give the email a new subject
-            emailObj["Subject"] = "Encrypted message attached"
+            # Give the email a new subject
+            emailObj.replace_header("Subject", "Encrypted message attached")
 
             # Pipe original email body into gpg and save symetrically
             # encrypted file that will be attached to the email
