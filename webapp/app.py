@@ -18,8 +18,9 @@ db = SQLAlchemy()
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 uri = 'sqlite:///' + os.path.join(basedir, 'database.db')
+key = 'thisisasecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
-app.config['SECRET_KEY'] = 'thisisasecretkey'
+app.config['SECRET_KEY'] = key
 
 # Create login manager object for managing authentication for current user
 login_manager = LoginManager()
