@@ -1,6 +1,9 @@
-from flask import Flask, render_template, url_for, redirect, session, request, flash
+from flask import Flask, render_template, url_for
+from flask import redirect, session, request, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_login import UserMixin, login_user
+from flask_login import LoginManager, login_required
+from flask_login import logout_user, current_user
 import json
 import os
 import pickle
@@ -14,7 +17,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy()
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'
++ os.path.join(basedir, 'database.db')
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 # Create login manager object for managing authentication for current user
@@ -22,10 +26,12 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
+
 # Check if a user exists in the database
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 # User login class
 class User(db.Model, UserMixin):
@@ -38,9 +44,11 @@ with app.app_context():
     db.init_app(app)
     db.create_all()
 
+
 @app.route('/', methods=['GET'])
 def login():
     return render_template('login.html')
+
 
 @app.route('/', methods=['POST'])
 def login_post():
@@ -52,45 +60,58 @@ def login_post():
     user = User.query.filter_by(username=username).first()
 
     # check if the user actually exists
-    # take the user-supplied password, hash it, and compare it to the hashed password in the database
-    #if not user or not check_password_hash(user.password, password):
+    # take the user-supplied password, hash it,
+    # and compare it to the hashed password in the database
     if not user or not check_password_hash(user.password, password):
         flash('Please check your login details and try again.')
-        return redirect(url_for('login')) # if the user doesn't exist or password is wrong, reload the page
+        # if the user doesn't exist or password is wrong,
+        # reload the page
+        return redirect(url_for('login'))
 
-    # if the above check passes, then we know the user has the right credentials
+    # if the above check passes, then we know the user
+    # has the right credentials
     login_user(user, remember=remember)
     return redirect(url_for('dashboard'))
 
-@app.route('/register', methods = ['GET'])
+
+@app.route('/register', methods=['GET'])
 def register():
     return render_template('register.html')
 
-@app.route('/register', methods = ['POST'])
+
+@app.route('/register', methods=['POST'])
 def register_post():
     # code to validate and add user to database goes here
     username = request.form.get('username')
     password = request.form.get('password')
 
-    user = User.query.filter_by(username=username).first() # if this returns a user, then the email already exists in database
+    # if this returns a user, then the email already
+    # exists in database
+    user = User.query.filter_by(username=username).first()
 
-    if user: # if a user is found, we want to redirect back to signup page so user can try again
+    # if a user is found, we want to redirect back
+    # to register page so user can try again
+    if user:
         flash('User account already exists')
         return redirect(url_for('register'))
 
-    # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-    newUser = User(username=username, password=generate_password_hash(password, method='scrypt'))
+    # create a new user with the form data.
+    # Hash the password so the plaintext version isn't saved.
+    newUser = User(username=username,
+                   password=generate_password_hash(password, method='scrypt'))
 
     # add the new user to the database
     db.session.add(newUser)
     db.session.commit()
     return redirect(url_for('login'))
 
+
 @app.route('/logout', methods=['GET'])
 @login_required
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
@@ -99,7 +120,9 @@ def dashboard():
         'data/logs.bin')
     barChartData = writeLogObjectsToBinaryFile.getLogListTypeCount(
         'data/logs.bin')
-    return render_template('dashboard.html', pieChartData=pieChartData, barChartData=barChartData)
+    return render_template('dashboard.html',
+                           pieChartData=pieChartData,
+                           barChartData=barChartData)
 
 
 @app.route('/emails', methods=['GET'])
@@ -108,7 +131,9 @@ def emails():
     headings = ("ID", "To", "From", "Subject", "Body", "Open")
     emailData = writeEmailObjectsToBinaryFile.readFromBinaryFileToEmailList(
         'data/emails.bin')
-    return render_template('emails.html', emailData=emailData, headings=headings)
+    return render_template('emails.html',
+                           emailData=emailData,
+                           headings=headings)
 
 
 @app.route('/logs', methods=['GET'])
@@ -145,6 +170,7 @@ def displayEmail(id):
                  'Attachment': emailAttachment}
     # print(emailData)
     return render_template('displayEmail.html', emailData=emailData)
+
 
 @app.route('/privacypolicy')
 @login_required
