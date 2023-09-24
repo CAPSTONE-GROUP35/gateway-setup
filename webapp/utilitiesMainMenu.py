@@ -1,4 +1,5 @@
-# This file is used to create Email and Log records by using a terminal menu system
+# This file is used to create Email
+# and Log records by using a terminal menu system
 import writeEmailObjectsToBinaryFile
 import writeLogObjectsToBinaryFile
 
@@ -46,7 +47,8 @@ def validateInput(message):
             break
 
 
-print("\nWelcome to utility program for creating records, please choose one of the following options")
+print("\nWelcome to utility program for creating records," +
+      "please choose one of the following options")
 print("\nMain Menu")
 print("1. Display all email records")
 print("2. Display all log records")
