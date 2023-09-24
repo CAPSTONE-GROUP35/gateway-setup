@@ -9,7 +9,8 @@ class Log:
     type = ""
     action = ""
 
-    def __init__(self, id, date, time, toAddress, fromAddress, subject, message, type, action):
+    def __init__(self, id, date, time, toAddress, fromAddress,
+                 subject, message, type, action):
         self.id = id
         self.date = date
         self.time = time
@@ -21,4 +22,6 @@ class Log:
         self.action = action
 
     def __str__(self):
-        return " ".join([str(self.id), self.date, self.time, self.toAddress, self.fromAddress, self.subject, self.message, self.type, self.action])
+        return " ".join([str(self.id), self.date, self.time,
+                         self.toAddress, self.fromAddress, self.subject,
+                         self.message, self.type, self.action])
