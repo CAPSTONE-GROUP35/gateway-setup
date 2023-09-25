@@ -47,7 +47,7 @@ def validateInput(message):
             break
 
 
-print("\nWelcome to utility program for creating records," +
+print("\nWelcome to utility program for creating records,"
       "please choose one of the following options")
 print("\nMain Menu")
 print("1. Display all email records")
