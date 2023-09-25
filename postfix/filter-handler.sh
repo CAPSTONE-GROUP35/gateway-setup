@@ -17,10 +17,10 @@ result=$?
 
 # If no threat is detected, inject the email back into Postfix for delivery to the intended recipient
 if [ $result = 0 ]; then
-    echo "No threat detected. Email will be forwarded to the intended recipient."
+    echo "Forwarding email."
     /usr/sbin/sendmail -G -i $@ < $temp_email_file
 else
-    echo "Threat detected. Email will not be forwarded to the intended recipient."
+    echo "NOT forwarding email."
 fi
 
 # Remove the temporary file. Comment out this line if you want to see what the full email looks like - the file will be owerwritten with each new email anyway.

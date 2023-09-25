@@ -24,11 +24,9 @@ from email import policy
 randomChars = ''.join(random.choices(
     string.ascii_uppercase + string.digits, k=32))
 
-
 class Outcome(Enum):
     ALLOWED = 0
     DENIED = 1
-
 
 class ThreatType(Enum):
     SPAM_PHISHING = "spam_phishing"
@@ -59,8 +57,8 @@ domainRegex = r'@(.*)'
 if re.findall(domainRegex, emailFromAddress)[0] == "internal.test":
     # Outbound emails logic
     # Keyword list scanning for outgoing emails
-    logMessage = "OUTBOUND: No email encryption required. "
-    + "No sensitive words detected."
+    logMessage = ("OUTBOUND: No email encryption required."
+                  " No sensitive words detected.")
     protectedKeywordList = ["secret", "confidential", "private",
                             "sensitive", "protected", "classified",
                             "encryption", "encrypt", "decrypt",
@@ -99,19 +97,18 @@ if re.findall(domainRegex, emailFromAddress)[0] == "internal.test":
                             "worm"]
 
     for keyword in protectedKeywordList:
-        if re.search(keyword, emailBody, re.IGNORECASE):
-            logMessage = "OUTBOUND: Encrypting email. "
-            + "Sensitive word '%s' detected." % keyword
-
         if keyword in emailBody.lower() or keyword in emailSubject.lower():
-            logMessage = "OUTBOUND: Encrypting email."
-            + " Sensitive word '%s' detected." % keyword
+            logMessage = ("OUTBOUND: Encrypting email."
+                          f" Sensitive word '{keyword}' detected.")
 
             # Give the email a new body, overwriting the old one
             newBody = "Encrypted message attached"
             emailObj.set_content(newBody)
 
-            # Pipe oldBody into gpg and save symetrically
+            # Give the email a new subject
+            emailObj.replace_header("Subject", "Encrypted message attached")
+
+            # Pipe original email body into gpg and save symetrically
             # encrypted file that will be attached to the email
             encryptedAttachmentPath = f'/home/user/encrypted-{randomChars}.gpg'
             gpgPassphrase = "open"
@@ -213,8 +210,8 @@ else:
                         "on offer", "act fast"]
     emailOutcome = Outcome.ALLOWED.name
     threatType = ThreatType.NO_THREAT.value
-    logMessage = "INBOUND: Email allowed."
-    + " No suspicious words or attachments detected."
+    logMessage = ("INBOUND: Email allowed."
+                  " No suspicious words or attachments detected.")
 
     # Keyword scanning
     for keyword in keywordBlacklist:
@@ -222,8 +219,8 @@ else:
             emailOutcome = Outcome.DENIED.name
             exitCode = Outcome.DENIED.value
             threatType = ThreatType.SPAM_PHISHING.value
-            logMessage = "INBOUND: Email denied."
-            +" Suspicious word '%s' detected." % keyword
+            logMessage = ("INBOUND: Email denied."
+                          f" Suspicious word '{keyword}' detected.")
             break
 
     # Attachment scanning
