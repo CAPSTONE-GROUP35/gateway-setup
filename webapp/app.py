@@ -41,6 +41,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
 
+
 # Create database tables for User login
 with app.app_context():
     db.init_app(app)
@@ -191,5 +192,6 @@ def displayEmail(id):
 def privacypolicy():
     return render_template('privacypolicy.html')
 
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='192.168.1.202', port=80)
