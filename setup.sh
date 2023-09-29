@@ -70,8 +70,8 @@ service opendkim start &&
 # Copy webapp to opt directory
 cp -r ./webapp /opt &&
 
-# Set ownership to write to binary files
-chown -R user /opt/webapp/data/ &&
+# Set 'user' ownership of webapp directory
+chown -R user /opt/webapp/ &&
 
 # Install flask packages
 pip install flask_sqlalchemy flask_login &&
