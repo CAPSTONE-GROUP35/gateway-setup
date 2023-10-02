@@ -23,10 +23,11 @@ def writeToBinaryFileFromLogList(writeBinFilePath, writeLogList):
             with open(writeBinFilePath, "wb") as f:
                 pickle.dump(writeLogList, f)
         else:
-            doesDirectoryExist = os.path.exists(writeBinFilePath)
+            newDirectory = os.path.dirname(writeBinFilePath)
+            doesDirectoryExist = os.path.exists(newDirectory)
             if not doesDirectoryExist:
                 print("Directory does NOT exist")
-                os.makedirs(writeBinFilePath)
+                os.makedirs(newDirectory)
                 print("Directory has been created")
 
             # Write list to new bin file
