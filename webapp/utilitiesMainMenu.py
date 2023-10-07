@@ -2,6 +2,7 @@
 # and Log records by using a terminal menu system
 import writeEmailObjectsToBinaryFile
 import writeLogObjectsToBinaryFile
+import hashingFunctions
 
 
 def displayAllEmailRecords():
@@ -35,6 +36,10 @@ def clearLogRecords():
     except:
         print("An error occurred when trying to clear log records.")
 
+def checkPasswordHash():
+    user = input("Please enter username to find password hash for: ")
+    password = input("Please enter password to hash for comparison: ")
+    hashingFunctions.checkPasswordHash(password,user)
 
 def validateInput(message):
     while True:
@@ -56,12 +61,13 @@ print("3. Add email record")
 print("4. Add log record")
 print("5. Clear email records")
 print("6. Clear log records")
-print("7. Exit program")
+print("7. Check password hash")
+print("8. Exit program")
 
 menuOption = validateInput("Enter menu selection number: ")
 
-while menuOption != 7:
-    if (menuOption != 7):
+while menuOption != 8:
+    if (menuOption != 8):
         if (menuOption == 1):
             displayAllEmailRecords()
         elif (menuOption == 2):
@@ -74,6 +80,8 @@ while menuOption != 7:
             clearEmailRecords()
         elif (menuOption == 6):
             clearLogRecords()
+        elif (menuOption == 7):
+            checkPasswordHash()
         else:
             print("Invalid menu option, please try again")
     else:
@@ -85,5 +93,6 @@ while menuOption != 7:
     print("4. Add log record")
     print("5. Clear email records")
     print("6. Clear log records")
-    print("7. Exit program")
+    print("7. Check password hash")
+    print("8. Exit program")
     menuOption = validateInput("Enter menu selection number: ")
