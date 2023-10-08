@@ -23,6 +23,7 @@ key = 'thisisasecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SECRET_KEY'] = key
 
+
 # Create login manager object for managing authentication for current user
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -129,7 +130,8 @@ def dashboard():
         'data/logs.bin')
     return render_template('dashboard.html',
                            pieChartData=pieChartData,
-                           barChartData=barChartData)
+                           barChartData=barChartData,
+                           user=current_user.username)
 
 
 @app.route('/emails', methods=['GET'])
@@ -143,7 +145,8 @@ def emails():
         'data/emails.bin')
     return render_template('emails.html',
                            emailData=emailData,
-                           headings=headings)
+                           headings=headings,
+                           user=current_user.username)
 
 
 @app.route('/logs', methods=['GET'])
@@ -156,7 +159,10 @@ def logs():
                 "Subject", "Message", "Type", "Action")
     logData = writeLogObjectsToBinaryFile.readFromBinaryFileToLogList(
         'data/logs.bin')
-    return render_template('logs.html', logData=logData, headings=headings)
+    return render_template('logs.html',
+                           logData=logData,
+                           headings=headings,
+                           user=current_user.username)
 
 
 @app.route('/displayEmail/<id>', methods=['GET'])
@@ -184,8 +190,9 @@ def displayEmail(id):
                  'Subject': emailSubject,
                  'Body': emailBody,
                  'Attachment': emailAttachment}
-    # print(emailData)
-    return render_template('displayEmail.html', emailData=emailData)
+    return render_template('displayEmail.html',
+                           emailData=emailData,
+                           user=current_user.username)
 
 
 @app.route('/privacypolicy')

@@ -4,3 +4,5 @@ webapp/data/emails.bin
 webapp/data/logs.bin
 webapp/data/logs.bin
 postfix/filter-service/test-filter-service.py
+webapp/data/emails.bin
+webapp/data/logs.bin
