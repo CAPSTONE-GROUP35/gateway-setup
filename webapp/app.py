@@ -114,6 +114,7 @@ def register_post():
 @app.route('/logout', methods=['GET'])
 @login_required
 def logout():
+    logout_user()
     session.clear()
     return redirect(url_for('login'))
 
@@ -124,6 +125,8 @@ def dashboard():
     # Set the session parameter and timeout
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=15)
+    session.modified = True
+
     pieChartData = writeLogObjectsToBinaryFile.getLogListActionCount(
         'data/logs.bin')
     barChartData = writeLogObjectsToBinaryFile.getLogListTypeCount(
@@ -140,6 +143,8 @@ def emails():
     # Set the session parameter and timeout
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=15)
+    session.modified = True
+
     headings = ("ID", "To", "From", "Subject", "Body", "Open")
     emailData = writeEmailObjectsToBinaryFile.readFromBinaryFileToEmailList(
         'data/emails.bin')
@@ -155,6 +160,8 @@ def logs():
     # Set the session parameter and timeout
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=15)
+    session.modified = True
+
     headings = ("ID", "Date", "Time", "To", "From",
                 "Subject", "Message", "Type", "Action")
     logData = writeLogObjectsToBinaryFile.readFromBinaryFileToLogList(
@@ -171,6 +178,8 @@ def displayEmail(id):
     # Set the session parameter and timeout
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=15)
+    session.modified = True
+
     originalEmail = writeEmailObjectsToBinaryFile.getOriginalEmail(
         id, 'data/emails.bin')
 
