@@ -6,3 +6,9 @@ webapp/data/logs.bin
 postfix/filter-service/test-filter-service.py
 webapp/data/emails.bin
 webapp/data/logs.bin
+webapp/__pycache__/hashingFunctions.cpython-311.pyc
+webapp/__pycache__/writeEmailObjectsToBinaryFile.cpython-311.pyc
+webapp/__pycache__/writeLogObjectsToBinaryFile.cpython-311.pyc
+webapp/data/emails.bin
+webapp/models/__pycache__/email.cpython-311.pyc
+webapp/models/__pycache__/log.cpython-311.pyc
