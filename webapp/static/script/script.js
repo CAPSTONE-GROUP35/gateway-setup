@@ -17,6 +17,7 @@ $(document).ready(function() {
     ordering: true,
     paging: true,
     searching: true,
+    order: [[1,'desc']],
     
         "columns": [  //Read a DOM sourced table into data objects
         {
@@ -62,6 +63,7 @@ $(document).ready(function() {
     ordering: true,
     paging: true,
     searching: true,
+    order: [[0,'desc']],
 
         "columns": [                //Read a DOM sourced table into data objects:
           { data: "id" },
