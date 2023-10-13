@@ -47,8 +47,18 @@
         <td>{{emailData.Body}}</td>
       </tr>
       <tr>
-        <td>Attachment:</td>
-        <td>{{emailData.Attachment}}</td>
+        <td>Attachments:</td>
+        <td>
+          <ol>
+          {% if emailData.Attachments %}
+            {% for attachment in emailData.Attachments%}
+              <li>{{attachment}}</li>
+            {% endfor %}
+          </ol>
+          {% else %}
+          None
+          {% endif %}          
+      </td>
       </tr>
     </table>
   {% else %}

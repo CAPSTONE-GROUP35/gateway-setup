@@ -2,7 +2,6 @@ import os
 import pickle
 from models.email import Email
 
-
 def displayAllEmailRecords(filePath):
     emailList = readFromBinaryFileToEmailList(filePath)
 

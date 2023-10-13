@@ -190,15 +190,23 @@ def displayEmail(id):
     emailFrom = data['from']
     emailSubject = data['subject']
     emailBody = data.get_body(preferencelist=('plain')).get_content()
-    emailAttachment = "None"
-    if (data.get_payload()):
-        emailAttachment = data.get_payload()[1]
+    emailAttachments = []
+
+    # Check for attachments and append to list if there is any
+    for part in data.walk():
+        if part.get_content_maintype() == 'multipart':
+            continue
+        if part.get('Content-Disposition') is not None:
+            filename = part.get_filename()
+            if filename:
+                emailAttachments.append(filename)
+
     emailData = {'Date': emailDate,
                  'To': emailTo,
                  'From': emailFrom,
                  'Subject': emailSubject,
                  'Body': emailBody,
-                 'Attachment': emailAttachment}
+                 'Attachments': emailAttachments}
     return render_template('displayEmail.html',
                            emailData=emailData,
                            user=current_user.username)
