@@ -101,7 +101,7 @@
 Once the Web App is running from the previous command, you can access the server in your browser either by clicking the link
 127.0.0.1:5000/ in the terminal, or typing this address into your preferred browser address bar
 
-# Utilities file for reading/adding Email/Log records
+# Utilities file for reading/adding/deleting Email/Log records
 ## Accessing utilities terminal menu
 - How to access the utilities menu?
 - Run 'python .\utilitiesMainMenu.py from 'gateway-setup\webapp\' folder OR
@@ -110,7 +110,10 @@ Once the Web App is running from the previous command, you can access the server
 - Option 2 -> Prints all log records saved to bin file in terminal
 - Option 3 -> Add 1 or more email records
 - Option 4 -> Add 1 or more log records
-- Option 5 -> Exit the program
+- Option 5 -> Clear all email records
+- Option 6 -> Clear all log records
+- Option 7 -> Check user password hash
+- Option 8 -> Exit the program
 
 # DNS Server
 ## Configure DNS Server
