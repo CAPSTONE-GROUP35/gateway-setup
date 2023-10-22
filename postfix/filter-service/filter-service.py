@@ -20,7 +20,7 @@ from email import policy
 # Exit code 1: Threat detected. This exit code will result in
 # the email being discarded.
 
-# Generate random string to facilitate synchronous filter service operations
+# Generate random string to facilitate parallel filter service operations
 randomChars = ''.join(random.choices(
     string.ascii_uppercase + string.digits, k=32))
 
