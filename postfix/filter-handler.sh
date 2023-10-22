@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Generate random string to facilitate synchronous filter service operations
+# Generate random string to facilitate parallel filter service operations
 randomChars=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32)
 
 # Location of the temporary file that will store the incoming email
